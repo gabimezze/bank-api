@@ -2,9 +2,11 @@ package com.bank.api.controller;
 
 import com.bank.api.model.Account;
 import com.bank.api.service.AccountService;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -24,9 +26,10 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping
-    public Account createAccount(@Valid @RequestBody Account account) {
-        return accountService.createAccount(account);
+    @PostMapping("/api/contas")
+    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+    Account newAccount = accountService.createAccount(account);
+    return ResponseEntity.status(HttpStatus.CREATED).body(newAccount);
     }
 
     @GetMapping
